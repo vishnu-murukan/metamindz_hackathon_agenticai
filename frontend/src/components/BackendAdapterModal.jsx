@@ -34,7 +34,7 @@ export default function BackendAdapterModal({ isOpen, onClose, useRealBackend, o
 
         {/* Description */}
         <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: '1.6', marginBottom: '20px' }}>
-          The MetaMindz Decision Twin architecture is designed with a decoupled <b>SimulationService</b> adapter layer. You can seamlessly toggle between the mock client simulation engine and a live FastAPI / LangGraph Python orchestrator backend.
+          The MetaMindz Decision Twin architecture is powered by a native <b>NitroStack TypeScript MCP Server</b> and decoupled <b>SimulationService</b> adapter layer. You can seamlessly toggle between client-side simulation and live MCP / REST server calls.
         </p>
 
         {/* Mode Toggle */}
@@ -42,7 +42,7 @@ export default function BackendAdapterModal({ isOpen, onClose, useRealBackend, o
           <div>
             <div style={{ fontWeight: 700, fontSize: '0.95rem', color: '#ffffff' }}>Active Data Mode</div>
             <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-              {useRealBackend ? 'Connected to WebSocket/REST Endpoint (http://localhost:8000)' : 'Client-Side Mock Rule Engine & Stream'}
+              {useRealBackend ? 'Connected to NitroStack TypeScript MCP Server (http://localhost:3000)' : 'Client-Side Rule Engine & Stream'}
             </div>
           </div>
           <button
@@ -58,14 +58,14 @@ export default function BackendAdapterModal({ isOpen, onClose, useRealBackend, o
               cursor: 'pointer',
             }}
           >
-            {useRealBackend ? 'Switch to Mock Data' : 'Switch to Real Backend API'}
+            {useRealBackend ? 'Switch to Client Data' : 'Switch to TypeScript Backend API'}
           </button>
         </div>
 
         {/* Code Contract Example */}
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '8px' }}>
-            <Code size={14} /> Swappable REST API Endpoint Contract:
+            <Code size={14} /> NitroStack TypeScript MCP Tool Contract:
           </div>
           <pre style={{
             background: '#040711',
@@ -77,16 +77,16 @@ export default function BackendAdapterModal({ isOpen, onClose, useRealBackend, o
             fontFamily: 'var(--font-code)',
             overflowX: 'auto',
           }}>
-{`POST /api/v1/simulate
+{`POST /mcp/tools/simulate_scenarios
 Content-Type: application/json
 
 {
-  "machine_id": "CNC-UNIT-12",
-  "vibration_level": 6.5,
+  "vibrationLevel": 6.5,
   "temperature": 85.0,
-  "hourly_downtime_cost": 12500,
-  "delay_days": 7,
-  "capacity_pct": 60
+  "hourlyDowntimeCost": 12500,
+  "activeOrders": 3,
+  "delayDays": 7,
+  "capacityPct": 60
 }`}
           </pre>
         </div>

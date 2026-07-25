@@ -106,3 +106,25 @@ export function runSimulation({
     costSavingsVsDelay: Math.round(drExpectedCost - strategies[bestId].totalExpectedCost),
   };
 }
+
+/**
+ * Communicates with the live NitroStack TypeScript MCP backend server.
+ * Falls back to client-side runSimulation if the server is unreachable.
+ */
+export async function runBackendSimulation(params, serverUrl = 'http://localhost:3000') {
+  try {
+    const response = await fetch(`${serverUrl}/mcp/tools/simulate_scenarios`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(params),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    }
+  } catch (err) {
+    console.warn('NitroStack TypeScript backend server unavailable, using local TypeScript calculation:', err.message);
+  }
+  return runSimulation(params);
+}
+
